@@ -1,6 +1,6 @@
 ## Deafio Desenvolvedor Monnett
 
-Este prjeto acolhe um sistema com telas ações de CRUD, conforme os requisitos, bem como as rotas para excução da ApiRest
+Este projeto acolhe um sistema com telas ações de CRUD, conforme os requisitos, bem como as rotas para excução da ApiRest
 
 
 ## Cadastrar 
