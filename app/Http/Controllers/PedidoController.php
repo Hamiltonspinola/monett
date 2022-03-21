@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Pedido;
+use App\Models\PedidoProduto;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 
@@ -13,11 +15,10 @@ class PedidoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pedidos = Pedido::get();
-        $produtos = Produto::get();
-        return view('monett.pedidos.index', compact('pedidos', 'produtos'));
+        $pedidos = Pedido::with('cliente', 'pedidoItem', 'pedidoItem.produto')->get();
+        return view('monett.pedidos.index', compact('pedidos'));
     }
 
     /**
@@ -28,7 +29,8 @@ class PedidoController extends Controller
     public function create()
     {
         $produtos = Produto::get();
-        return view('monett.pedidos.create', compact('produtos'));
+        $clientes = Cliente::get();
+        return view('monett.pedidos.create', compact('produtos', 'clientes'));
     }
 
     /**
@@ -39,9 +41,22 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-        $pedido = new Pedido;
-        $pedido->create($request->all());
+        $pedido = Pedido::with('cliente');
+        $pedidoItem = new PedidoProduto;
+        $valorTotal = ($request->quantidade * $request->preco);
+        $pedido->create([
+            'cliente_id' => $request->clientes,
+            'status'  => 'Pendente',
+        ]);
+        $idPedido = Pedido::orderBy('id', 'desc')->first();
+
+        $pedidoItem->create([
+            'pedido_id'   => $idPedido->id,
+            'produto_id'  => $request->id,
+            'valor'         => $valorTotal,
+            'quantidade'   => $request->quantidade
+        ]);
+        return redirect()->route('monett.home');
     }
 
     /**
@@ -50,9 +65,10 @@ class PedidoController extends Controller
      * @param  \App\Models\Pedido  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function show(Pedido $pedido)
-    {
-        //
+    public function show($pedido)
+    {   
+        $result = Pedido::with('pedidoItem', 'pedidoItem.produto')->find($pedido);
+        return view('monett.pedidos.show', compact('result'));
     }
 
     /**
@@ -75,7 +91,21 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        //
+        if($pedido->status == "pendente"){
+            $pedido->update([
+                'status' => "Preparando",
+            ]);
+        }elseif($pedido->status == "Preparando"){
+            $pedido->update([
+                'status' => "emEntrega",
+            ]);
+        }elseif($pedido->status == "emEntrega"){
+            $pedido->update([
+                'status' => "Entregue",
+            ]);
+        }
+        return redirect()->route('pedidos.index');
+
     }
 
     /**

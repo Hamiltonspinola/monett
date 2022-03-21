@@ -16,19 +16,13 @@ class CreatePedidosTable extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->
+            $table->unsignedBigInteger('cliente_id');
+            $table->foreign('cliente_id')->
                     references('id')->
-                    on('users')->
-                    onDelete('cascade');
-
-            $table->unsignedBigInteger('produto_id');
-            $table->foreign('produto_id')->
-                    references('id')->
-                    on('produtos')->
+                    on('clientes')->
                     onDelete('cascade');
                     
-            $table->enum('statys', ['pendente','preparando', 'emEntrega', 'entregue']);
+            $table->string('status');
             $table->timestamps();
         });
     }

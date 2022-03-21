@@ -1,53 +1,59 @@
-@extends('adminlte::page')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Monett') }}
+        </h2>
+    </x-slot>
 
-@section('title', 'Produtos')
-
-@section('content_header')
-    <h1>Listagem de produtos</h1>
-@stop
-
-@section('content')
-    <div class="card">
-
-        <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($produtos as $produto)
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ $produto->nome }}</td>
-                            <td>R$ {{ $produto->preco }}</td>
-                            <td>
-                                <div class="row">
-                                    <a href="{{ route('produtos.edit', $produto->id) }}" class="btn btn-success">Editar</a>
-                                    <form action="{{ route('produtos.destroy', $produto->id) }}" method="post" class="col-md-6">
+                            <th>
+                                ID: #
+                            </th>
+                            <th>
+                                Nome
+                            </th>
+                            <th>
+                                Preço
+                            </th>
+                            <th>
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($produtos as $produto)
+                            <tr>
+                                <td>
+                                    {{ $produto->id }}
+                                </td>
+                                <td>
+                                    {{ $produto->nome }}
+                                </td>
+                                <td>
+                                    {{ $produto->preco }}
+                                </td>
+                                <td>
+                                    <a href="{{ route('produtos.edit', $produto->id) }}">
+                                        <button type="submit" class="btn btn-success col-md-3">Editar Produto</button>
+                                    </a>
+                                    
+                                    <form action="{{ route('produtos.destroy', $produto->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="submit" class="btn btn-danger col-md-3">Excuir Pedido</button>
                                     </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-
     </div>
-@stop
-
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-    <script>
-        console.log('Hi!');
-    </script>
-@stop
+</x-app-layout>

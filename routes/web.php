@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\ClienteApiController;
+use App\Http\Controllers\Api\PedidoApiController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PedidoController;
@@ -17,18 +19,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('clientes')->group(function () {
-    Route::get('/', [ClienteController::class, 'index'])->name('clientes.index');
-    Route::get('/create', [ClienteController::class, 'create'])->name('clientes.create');
-    Route::post('/create', [ClienteController::class, 'store'])->name('clientes.store');
-    Route::get('/edit/{id}', [ClienteController::class, 'edit'])->name('clientes.edit');
-    Route::put('/edit/{id}', [ClienteController::class, 'update'])->name('clientes.update');
-    Route::get('/show/{id}', [ClienteController::class, 'show'])->name('clientes.show');
-    Route::delete('/delete/{id}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
+Route::get('/', function(){
+    return view('monett.home');
+});
+
+Route::prefix('api')->group(function () {
+    Route::prefix('clientes')->group(function () {
+        Route::post('/create', [ClienteApiController::class, 'store'])->name('api.clientes.store');
+        Route::post('/edit/{id}', [ClienteApiController::class, 'update'])->name('api.clientes.update');
+        Route::get('/show/{id}', [ClienteApiController::class, 'show'])->name('api.clientes.show');
+    });
+
+    Route::prefix('pedidos')->group(function () {
+        Route::post('/create/{clienteId}', [PedidoApiController::class, 'store'])->name('api.pedidos.store');
+        Route::delete('/delete/{clienteId}/{id}', [PedidoApiController::class, 'destroy'])->name('api.pedidos.destroy');
+        Route::get('/show/{clienteId}/{id}', [PedidoApiController::class, 'show'])->name('api.pedidos.show');
+        Route::get('/list/{clienteId}', [PedidoApiController::class, 'list'])->name('api.pedidos.list');
+    });
 });
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
+
     Route::prefix('monett')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('monett.home');
 
@@ -36,10 +49,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('/', [PedidoController::class, 'index'])->name('pedidos.index');
             Route::get('/create', [PedidoController::class, 'create'])->name('pedidos.create');
             Route::post('/create', [PedidoController::class, 'store'])->name('pedidos.store');
-            Route::get('/edit/{id}', [PedidoController::class, 'edit'])->name('pedidos.edit');
-            Route::put('/edit/{id}', [PedidoController::class, 'update'])->name('pedidos.update');
-            Route::get('/show/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
-            Route::delete('/delete/{id}', [PedidoController::class, 'destroy'])->name('pedidos.destroy');
+            Route::get('/edit/{pedido}', [PedidoController::class, 'edit'])->name('pedidos.edit');
+            Route::put('/edit/{pedido}', [PedidoController::class, 'update'])->name('pedidos.update');
+            Route::get('/show/{pedido}', [PedidoController::class, 'show'])->name('pedidos.show');
+            Route::delete('/delete/{pedido}', [PedidoController::class, 'destroy'])->name('pedidos.destroy');
         });
         Route::prefix('produtos')->group(function () {
             Route::get('/', [ProdutoController::class, 'index'])->name('produtos.index');
