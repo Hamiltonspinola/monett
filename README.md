@@ -1,3 +1,99 @@
+## Deafio Desenvolvedor Monnett
+
+Este prjeto acolhe um sistema com telas ações de CRUD, conforme os requisitos, bem como as rotas para excução da ApiRest
+
+
+## Cadastrar 
+1 - Executar o comando 'php artisan serve'
+2 - Abrir o projeto no navergador com localhost:8000/register
+3 - Cadastrar um usuario (Este usuario é admin)
+
+## Logar
+
+1 - Acessar a rota localhost:8000/login
+2 - Logar com os dados cadastrados
+
+- Cada rota mencionada abaixo contém um link no menu
+
+## Painel administrativo
+
+1 - Cadastrar Produto
+2 - Cadastrar Pedido
+
+## Cadastrar Produto
+
+1 - Acessar rota localhost:8000/produtos/create
+2 - Informar o nome e preço do produto
+
+## Cadastrar Pedido
+
+1 - Acessar rota localhost:8000/pedidos/create
+2 - Escolher o produto, e quantidade desejada
+
+## Listagem de pedidos
+
+1 - Acessar rota localhost:8000/pedidos/
+
+## Listagem de produtos
+
+1 - Acessar rota localhost:8000/produtos/
+
+## ApiRest - Os testes foram feitos via postman
+
+## Clientes
+1 - [
+    1 - A rota localhost:8000/api/clientes/create cria um usuário
+    2 - Esta rota deve ser requisita apenas com os parâmetros obrigatórios (nome, telefone, email, endereco)
+    3 - Configurar o Header do postman para aceitar dados Json
+    4 - Acessar através do Body da requisição, passando os parâmetros via Json
+    5 - Acessa a rota via POST
+] 
+
+2 - [
+    1 - A rota localhost:8000/api/clientes/show/{id} exibe um cliente específico, onde {id} representa o id do cliente
+    2 - Esta rota exige o parâmetro de id para ser executada
+    3 - Acessar via GET
+]
+
+3 - [
+    1 - A rota localhost:8000/api/clientes/edit/{id} edita um cliente específico, onde {id} representa o id do cliente
+    2 - Esta rota exige o parâmetro de id para ser executada
+    3 - Acessar via PUT
+]
+
+4 - [
+    1 - A rota localhost:8000/api/clientes/delete/{id} exclui um cliente específico, onde {id} representa o id do cliente
+    2 - Esta rota exige o parâmetro de id para ser executada
+    3 - Acessar via DELETE
+]
+
+## Pedidos
+
+1 - [
+    1 - A rota localhost:8000/api/pedidos/create/{clientId} cria um pedido , onde {clienteId} representa o id do cliente
+    2 - Esta rota exige o parâmetro de clienteId para ser executada
+    3 - Acessar via POST
+]
+
+2 - [
+    1 - A rota localhost:8000/api/pedidos/show/{clientId}/{id} exibe um pedido específico, onde {clienteId} representa o id do cliente e {id} representa o id do pedido
+    2 - Esta rota exige o parâmetro de clienteId e id para ser executada
+    3 - Acessar via GET
+]
+
+3 - [
+    1 - A rota localhost:8000/api/pedidos/edit/{clientId}/{id} edita um pedido específico, onde {clienteId} representa o id do cliente e {id} representa o id do pedido
+    2 - Esta rota exige o parâmetro de clienteId e id para ser executada
+    3 - Acessar via PUT
+]
+
+4 - [
+    1 - A rota localhost:8000/api/pedidos/delete/{clientId}/{id} exclui um pedido específico, onde {clienteId} representa o id do cliente e {id} representa o id do pedido
+    2 - Esta rota exige o parâmetro de clienteId e id para ser executada
+    3 - Acessar via DELETE
+]
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
